@@ -22,9 +22,10 @@ $ make install
 ## Usage:
 
 ```
-use Net::Packet::Ethernet;
-use Net::Packet::IPv4;
-use Net::Packet::UDP;
+use Net::Packet::Ethernet :short; # use :short for short notation:
+use Net::Packet::IPv4 :short;     #   Ethernet.decode
+use Net::Packet::UDP :short;      # instead of
+                                  #   Net::Packet::Ethernet.decode
 
 my $pkt = Buf.new([...]);
 
@@ -40,7 +41,7 @@ printf "%d -> %d\n", $udp.src_port, $udp.dst_port;
 ```
 
 ```
-use Net::Ethernet;
+use Net::Ethernet :short;
 
 my $pkt = Buf.new([...]);
 
