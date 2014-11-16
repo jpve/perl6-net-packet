@@ -8,7 +8,7 @@ The following protocols are implemented: Ethernet, IPv4, UDP and ARP. Each proto
 
 ## Documentation
 
-All modules are documented using in-file Pod. The in-file Pods are rendered to Markdown formatted files in the [docs/](tree/master/docs) directory.
+All modules are documented using in-file Pod. The in-file Pods are rendered to Markdown formatted files in the [docs/](/docs) directory.
 
 ## Installation
 
