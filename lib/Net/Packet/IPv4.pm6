@@ -3,6 +3,7 @@ use Net::Packet::Base :short;
 use Net::Packet::IPv4_addr;
 use Net::Packet::IP_proto;
 use Net::Packet::UDP  :short;
+use Net::Packet::ICMP :short;
 
 =NAME
 Net::Packet::IPv4
@@ -24,7 +25,7 @@ Net::Packet::IPv4
 
     constant IPv4       ::= Net::Packet::IPv4;
     constant IPv4_addr  ::= Net::Packet::IPv4_addr;
-    constant IPv4_proto ::= Net::Packet::IPv4_proto;
+    constant IP_proto   ::= Net::Packet::IP_proto;
 =end EXPORTS
 
 =begin DESCRIPTION
@@ -158,12 +159,24 @@ method _decode() returns IPv4 {
 method pl() is rw {
     Proxy.new(
 	FETCH => {
-	    if $.proto == 17 {
+	    return $!payload if $!payload;
+		
+	    if    $.proto == IP_proto::UDP.value {
 		$!payload = UDP.decode($.data, self);
 	    }
+	    elsif $.proto == IP_proto::ICMP.value {
+		$!payload = ICMP.decode($.data, self);
+	    }
+	    
 	    $!payload;
 	},
-	STORE => -> $pl is copy {
+	STORE => -> $pl {
+	    my IP_proto $proto;
+
+	    $proto = IP_proto::UDP  if $pl ~~ UDP;
+	    $proto = IP_proto::ICMP if $pl ~~ ICMP;
+
+	    $.proto = $proto;
 	    $!payload = $pl;
 	}
     );
