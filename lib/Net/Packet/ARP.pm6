@@ -1,7 +1,8 @@
 use Net::Packet :util;
-use Net::Packet::Base     :short;
-use Net::Packet::Ethernet :short;
-use Net::Packet::IPv4     :short;
+use Net::Packet::Base      :short;
+use Net::Packet::IPv4_addr :short;
+use Net::Packet::MAC_addr  :short;
+use Net::Packet::EtherType :short;
 
 =NAME
 Net::Packet::ARP - Interface for decoding ARP packets.

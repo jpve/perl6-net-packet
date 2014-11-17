@@ -3,6 +3,7 @@ use Net::Packet::Base :short;
 use Net::Packet::MAC_addr;
 use Net::Packet::EtherType;
 use Net::Packet::IPv4;
+use Net::Packet::ARP;
 
 =NAME
 Net::Packet::Ethernet
@@ -189,12 +190,23 @@ method _decode returns Ethernet {
 method pl() is rw {
     Proxy.new(
 	FETCH => {
-	    if $.type == 0x0800 {
+	    return $!payload if $!payload;
+
+	    if    $.type == EtherType::IPv4.value {
 		$!payload = Net::Packet::IPv4.decode($.data, self);
 	    }
+	    elsif $.type == EtherType::ARP.value {
+                $!payload = Net::Packet::ARP.decode($.data, self);
+	    }
+
 	    $!payload;
 	},
 	STORE => -> $pl {
+	    my EtherType $type;
+	    $type = EtherType::IPv4.value if $pl ~~ Net::Packet::IPv4;
+	    $type = EtherType::ARP.value  if $pl ~~ Net::Packet::ARP;
+
+	    $.type = $type;
 	    $!payload = $pl;
 	}
     );
