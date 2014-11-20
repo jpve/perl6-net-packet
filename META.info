@@ -8,7 +8,7 @@
     "Net::Packet"               : "lib/Net/Packet.pm6",
     "Net::Packet::Ethernet"     : "lib/Net/Packet/Ethernet.pm6",
     "Net::Packet::EtherType"    : "lib/Net/Packet/EtherType.pm6",
-    "Net::Packet::MAC_addr"     : "lib/Net/Packet/MAC_addr.pm6"
+    "Net::Packet::MAC_addr"     : "lib/Net/Packet/MAC_addr.pm6",
     "Net::Packet::IPv4"         : "lib/Net/Packet/IPv4.pm6",
     "Net::Packet::IPv4_addr"    : "lib/Net/Packet/IPv4_addr.pm6",
     "Net::Packet::IP_proto"     : "lib/Net/Packet/IP_proto.pm6",
@@ -18,3 +18,4 @@
   },
   "source-url"  : "git://github.com/jpve/perl6-net-packet.git"
 }
+
