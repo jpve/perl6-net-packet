@@ -12,6 +12,13 @@ All modules are documented using in-file Pod. The in-file Pods are rendered to M
 
 ## Installation
 
+Using panda:
+```
+$ panda update
+$ panda install Net::Packet
+```
+
+Using ufo:
 ```
 $ ufo          # Generates Makefile
 $ make
