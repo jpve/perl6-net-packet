@@ -3,10 +3,13 @@ Net::Packet - Decoding network frames/packets.
 
 =begin SYNOPSIS
 
+=for comment
+Needed to comment out the `use` statements, else panda thinks these are dependencies.
+
 =begin code
- use Net::Packet::Ethernet :short;
-use Net::Packet::IPv4 :short;
-use Net::Packet::UDP :short;
+# use Net::Packet::Ethernet :short;
+# use Net::Packet::IPv4 :short;
+# use Net::Packet::UDP :short;
 
 my $pkt = Buf.new([...]);
 
@@ -23,7 +26,7 @@ printf "%d -> %d\n", $udp.src_port, $udp.dst_port;
 Prints '11:22:33:AA:BB:CC -> 44:55:66:EE:DD:FF: 11.22.33.44 -> 55.66.77.88: 443 -> 49875'. Following code prints the same:
 
 =begin code
- use Net::Ethernet :short;
+# use Net::Ethernet :short;
 
 my $pkt = Buf.new([...]);
 
