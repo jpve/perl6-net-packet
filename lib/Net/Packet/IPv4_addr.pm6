@@ -46,13 +46,22 @@ has Int $.addr is rw = 0;
 
 =begin code
 .new(Int $addr) returns IPv4_addr
-  Constructor, takes $addr as Int.
+.new(Str $addr) returns IPv4_addr
+  Constructor, takes $addr as:
+   - Int;
+   - Str in the form of '1.222.33.44'.
 =end code
 
-method new(Int $addr) returns IPv4_addr {
+multi method new(Int $addr) returns IPv4_addr {
     self.bless(:$addr);
 }
 
+multi method new(Str $addr) returns IPv4_addr {
+    die("IPv4_addr.new: Invalid string format")
+	unless $addr ~~ / (\d**1..3 '.')**3  \d**1..3 /;
+	my @shifts = 24, 16, 8, 0;
+    self.bless(:addr([+] $addr.split('.').map({.Int +< shift(@shifts)})));
+}
 
 
 =begin code
@@ -105,3 +114,13 @@ method Str returns Str {
     sprintf('%d.%d.%d.%d', |@octs);
 }
 
+
+
+=begin code
+.Buf() returns Buf
+  Returns the address as a byte string.
+=end code
+
+method Buf returns Buf {
+    Buf.new(|self.octets());
+}
