@@ -47,11 +47,20 @@ has Int $.addr is rw = 0;
 
 =begin code
 .new(Int $addr) returns MAC_addr
-  Constructor, takes $addr as Int.
+.new(Str $addr) returns MAC_addr
+  Constructor, takes $addr:
+   - Int;
+   - Str in the form of '00:11:22:AA:BB:CC'.
 =end code
 
-method new(Int $addr) returns MAC_addr {
+multi method new(Int $addr) returns MAC_addr {
     self.bless(:$addr);
+}
+
+multi method new(Str $addr) returns MAC_addr {
+    die('MAC_addr.new: Invalid string format')
+	unless $addr ~~ /^(<[0..9 A..F a..f]>**2\:)**5 <[0..9 A..F a..f]>**2$/;
+    self.bless(:addr(('0x'~$addr.subst(':', '', :g)).Int));
 }
 
 
@@ -111,3 +120,13 @@ method Str() returns Str {
     sprintf('%02X:%02X:%02X:%02X:%02X:%02X', |@octs);
 }
 
+
+
+=begin code
+.Buf() returns Buf
+  Returns the address as a byte string.
+=end code
+
+method Buf() returns Buf {
+    Buf.new(|self.octets);
+}
