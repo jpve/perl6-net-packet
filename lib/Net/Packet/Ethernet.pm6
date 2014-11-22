@@ -180,6 +180,30 @@ method _decode returns Ethernet {
 
 
 =begin code
+.encode()
+  Writes the packet to $.frame buffer, including the payload.
+=end code
+
+method encode() {
+    $!payload.encode;
+
+    if $!payload ~~ Net::Packet::ARP {
+	$.type = EtherType::ARP;
+    }
+    else {
+	die("Ethernet.encode: Payload not implemented");
+    }
+    
+    # TODO: Adds support for encoding 802.1Q/ad fields
+    my Buf $hdr =   $.dst.Buf 
+                  ~ $.src.Buf
+                  ~ pack('n', $.type.value);
+    $.frame = $hdr ~ $!payload.frame;
+}
+
+
+
+=begin code
 .pl() returns Proxy is rw
   Returns a Proxy for the payload of this packet.
   Usage:
@@ -201,10 +225,10 @@ method pl() is rw {
 
 	    $!payload;
 	},
-	STORE => -> $pl {
+	STORE => -> $self, $pl {
 	    my EtherType $type;
-	    $type = EtherType::IPv4.value if $pl ~~ Net::Packet::IPv4;
-	    $type = EtherType::ARP.value  if $pl ~~ Net::Packet::ARP;
+	    $type = EtherType::IPv4 if $pl ~~ Net::Packet::IPv4;
+	    $type = EtherType::ARP  if $pl ~~ Net::Packet::ARP;
 
 	    $.type = $type;
 	    $!payload = $pl;
