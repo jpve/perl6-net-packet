@@ -166,6 +166,55 @@ $.dst_proto_addr  is rw
 	self;	    
     }
 
+
+=begin code
+.encode()
+  Writes to packet to the $.frame buffer.
+=end code
+
+    method encode() {
+	die("Protocol type not supported") if $.proto_type != EtherType::IPv4;
+
+	given $.hw_type.value {
+	    when HardwareType::Ethernet.value {
+		$.hw_len = 6;
+		die("\$.src_hw_addr is of incorrect type, should correspond to \$.hw_type")
+		    unless $.src_hw_addr ~~ MAC_addr;
+		die("\$.dst_hw_addr is of incorrect type, should correspond to \$.hw_type")
+		    unless $.dst_hw_addr ~~ MAC_addr;
+	    }
+	    default {
+		die("Hardware type not supported") if $.hw_type != HardwareType::MAC_addr;
+	    }
+	}
+
+	given $.proto_type.value {
+	    when EtherType::IPv4.value {
+		$.proto_len = 4;
+		die("\$.src_proto_addr is of incorrect type, should correspond to \$.proto_type")
+		    unless $.src_proto_addr ~~ IPv4_addr;
+		die("\$.dst_proto_addr is of incorrect type, should correspond to \$.proto_type")
+		    unless $.dst_proto_addr ~~ IPv4_addr;
+	    }
+	    default {
+		die("Protocol type not supported") if $.hw_type != HardwareType::MAC_addr;
+	    }
+	}
+
+	my Buf $hdr = pack('nnCCn',
+	    $.hw_type.value,
+	    $.proto_type.value,
+	    $.hw_len, $.proto_len,
+	    $.operation.value
+	);
+
+	$hdr ~= $.src_hw_addr.Buf;
+	$hdr ~= $.src_proto_addr.Buf;
+	$hdr ~= $.dst_hw_addr.Buf;
+	$hdr ~= $.dst_proto_addr.Buf;
+
+	$.frame = $hdr;
+    }
 }
 
     
