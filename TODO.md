@@ -1,8 +1,8 @@
 TODO
 ====
 
-Package                             | Issues
-------------------------------------+----------------------------
+Package                             | Improvements
+----------------------------------- | ----------------------------
 `Net::Packet::Ethernet`             | Add test for `encode()`.
 `Net::Packet::EtherType`            | Add more enum values.
 `Net::Packet::IP_proto`             | Add more enum values.
