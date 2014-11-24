@@ -22,7 +22,7 @@ module Net::Packet::EtherType;
 
 enum Net::Packet::EtherType (
     IPv4             => 0x0800,
-    ARP              => 0x0836,
+    ARP              => 0x0806,
     IEEE802_1Q       => 0x8100,	    
     IEEE802_1ad      => 0x88A8,
 );
