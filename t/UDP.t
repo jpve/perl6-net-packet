@@ -1,5 +1,5 @@
 use v6;
-BEGIN {@*INC.unshift: './blib/lib' }
+use lib 'blib/lib';
 
 use Test;
 
