@@ -1,4 +1,5 @@
 {
+  "perl"        : "6.*",
   "name"        : "Net::Packet",
   "version"     : "v0.0.1",
   "description" : "Decodeing network frames",
