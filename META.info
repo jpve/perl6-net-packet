@@ -1,5 +1,6 @@
 {
   "name"        : "Net::Packet",
+  "license"     : "Artistic-2.0",
   "version"     : "v0.0.1",
   "description" : "Decodeing network frames",
   "author"      : "Jorn van Engelen",
